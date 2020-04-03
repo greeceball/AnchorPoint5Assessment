@@ -17,6 +17,7 @@
 		346429AE24378E6B00F83927 /* ContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346429AD24378E6B00F83927 /* ContactController.swift */; };
 		346429B12437932D00F83927 /* ContactListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346429B02437932D00F83927 /* ContactListTableViewController.swift */; };
 		346429B32437935200F83927 /* ContactDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346429B22437935200F83927 /* ContactDetailViewController.swift */; };
+		346429B524379E5000F83927 /* SearchableRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346429B424379E5000F83927 /* SearchableRecord.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		346429AD24378E6B00F83927 /* ContactController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactController.swift; sourceTree = "<group>"; };
 		346429B02437932D00F83927 /* ContactListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactListTableViewController.swift; sourceTree = "<group>"; };
 		346429B22437935200F83927 /* ContactDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailViewController.swift; sourceTree = "<group>"; };
+		346429B424379E5000F83927 /* SearchableRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchableRecord.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,8 @@
 		3464298C24378CD400F83927 /* AnchorPoint5Assessment */ = {
 			isa = PBXGroup;
 			children = (
+				346429B424379E5000F83927 /* SearchableRecord.swift */,
+				346429B624379E8200F83927 /* Helpers + extension */,
 				346429A624378DEB00F83927 /* Model */,
 				346429A524378DE100F83927 /* View */,
 				346429A224378DBA00F83927 /* Controllers */,
@@ -146,6 +150,13 @@
 			path = "Custom Cell";
 			sourceTree = "<group>";
 		};
+		346429B624379E8200F83927 /* Helpers + extension */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Helpers + extension";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -221,6 +232,7 @@
 				3464298E24378CD400F83927 /* AppDelegate.swift in Sources */,
 				346429AE24378E6B00F83927 /* ContactController.swift in Sources */,
 				346429B12437932D00F83927 /* ContactListTableViewController.swift in Sources */,
+				346429B524379E5000F83927 /* SearchableRecord.swift in Sources */,
 				346429B32437935200F83927 /* ContactDetailViewController.swift in Sources */,
 				3464299024378CD400F83927 /* SceneDelegate.swift in Sources */,
 			);

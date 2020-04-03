@@ -7,6 +7,7 @@
 //
 
 import CloudKit
+import UIKit
 
 struct ConstantContact {
     
@@ -55,5 +56,15 @@ extension CKRecord {
 extension Contact: Equatable {
     static func == (lhs: Contact, rhs: Contact) -> Bool {
         return lhs.ckRecordID == rhs.ckRecordID
+    }
+}
+
+extension Contact: SearchableRecord {
+    func matches(searchTerm: String) -> Bool {
+        if name.lowercased().contains(searchTerm.lowercased()) {
+            return true
+        } else {
+            return false
+        }
     }
 }
