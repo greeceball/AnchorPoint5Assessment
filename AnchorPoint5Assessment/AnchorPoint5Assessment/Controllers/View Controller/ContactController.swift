@@ -8,52 +8,85 @@
 
 import CloudKit
 
-struct ConstantContact {
+class ContactController {
     
-    static let TypeKey = "Contact"
-    fileprivate static let NameKey = "name"
-    fileprivate static let EmailKey = "email"
-    fileprivate static let phoneKey = "phonenumber"
+    //MARK: - Properties
+    static let shared = ContactController()
+    let publicDB = CKContainer.default().publicCloudDatabase
+    var contacts: [Contact] = []
     
-}
-
-class Contact {
+    //MARK: - CRUD Functions
     
-    var name: String
-    var email: String
-    var phoneNumber: String
-    var ckRecordID: CKRecord.ID
-    
-    
-    init(name: String, email: String, phoneNumber: String, ckRecordID: CKRecord.ID = CKRecord.ID(recordName: UUID().uuidString)) {
+    //MARK: - Create
+    func create(name: String, email: String, phoneNumber: String, completion: @escaping (Bool) -> Void) {
         
-        self.name = name
-        self.email = email
-        self.phoneNumber = phoneNumber
-        self.ckRecordID = ckRecordID
+        let newContact = Contact(name: name, email: email, phoneNumber: phoneNumber)
         
+        let newRecord = CKRecord(contact: newContact)
+        
+        publicDB.save(newRecord) { (record, error) in
+            if let error = error {
+                print(error.localizedDescription + "---> \(error)")
+                completion(false)
+                return
+            }
+            guard let record = record, let contact = Contact(record: record) else { completion(false); return }
+            self.contacts.append(contact)
+            completion(true)
+        }
     }
     
-    convenience init?(record: CKRecord) {
-           
-           guard let name = record[ConstantContact.NameKey] as? String, let email = record[ConstantContact.EmailKey] as? String, let phoneNumber = record[ConstantContact.phoneKey] as? String else { return nil }
-           
-           self.init(name: name, email: email, phoneNumber: phoneNumber, ckRecordID: record.recordID)
-       }
-}
-
-extension CKRecord {
-    convenience init(contact: Contact) {
-        self.init(recordType: ConstantContact.TypeKey, recordID: contact.ckRecordID)
+    //MARK: - Read
+    func fetchAllContacts(completion: @escaping (Bool) -> Void) {
+        let predicate = NSPredicate(value: true)
         
-        setValue(contact.name, forKey: ConstantContact.NameKey)
-        setValue(contact.email, forKey: ConstantContact.EmailKey)
-        setValue(contact.phoneNumber, forKey: ConstantContact.phoneKey)
+        let query = CKQuery(recordType: ConstantContact.TypeKey, predicate: predicate)
+        
+        publicDB.perform(query, inZoneWith: nil) { (records, error) in
+            if let error = error {
+                print(error.localizedDescription + "---> \(error)")
+                completion(false)
+                return
+            }
+            guard let records = records else { completion(false); return }
+            
+            let contacts: [Contact] = records.compactMap({Contact(record: $0)})
+            self.contacts = contacts
+            completion(true)
+            return
+        }
     }
-}
-
-extension Contact: Equatable {
-    static func == (lhs: Contact, rhs: Contact) -> Bool {
-        return lhs.ckRecordID == rhs.ckRecordID
+    
+    //MARK: - Update
+    func updateContact(contact: Contact, completion: @escaping (Bool) -> Void) {
+        
+        let records = CKRecord(contact: contact)
+        
+        let operation = CKModifyRecordsOperation(recordsToSave: [records])
+        operation.savePolicy = .changedKeys
+        operation.qualityOfService = .userInteractive
+        operation.queuePriority = .high
+        operation.completionBlock = {
+            completion(true)
+            print("Contact Updated")
+        }
+        publicDB.add(operation)
+    }
+    
+    //MARK: - Delete
+    func deleteContact(contact: Contact, completion: @escaping(Bool) -> Void) {
+        
+        publicDB.delete(withRecordID: contact.ckRecordID) { (record, error) in
+            if let error = error {
+                print(error.localizedDescription + "---> \(error)")
+                completion(false)
+                return
+        }
+            if let _ = record {
+                guard let index = self.contacts.firstIndex(of: contact) else { completion(false); return }
+                self.contacts.remove(at: index)
+                completion(true)
+            }
+        }
     }
 }
