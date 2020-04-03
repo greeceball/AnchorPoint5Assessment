@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hwK-55-rfd">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
@@ -56,6 +56,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="contactSearchBar" destination="gTw-8p-XOd" id="LcG-FZ-PX4"/>
+                        <outlet property="tableView" destination="yfs-LH-Qkg" id="dP4-7Z-jcQ"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8US-0x-Aix" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -133,8 +134,17 @@
                         <viewLayoutGuide key="safeArea" id="5xw-F1-5aY"/>
                     </view>
                     <navigationItem key="navigationItem" id="dP6-gN-U7g">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="NYd-79-PGJ"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="NYd-79-PGJ">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="JQW-Tb-XIU" id="uf6-fM-f4V"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="emailTextField" destination="G9g-tg-dbQ" id="LAu-vF-KR2"/>
+                        <outlet property="nameTextField" destination="gIH-qy-MxB" id="fnW-aT-Oua"/>
+                        <outlet property="phoneNumberTextField" destination="Pyp-xb-seh" id="2Dv-5z-X7V"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bXc-ro-4y8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

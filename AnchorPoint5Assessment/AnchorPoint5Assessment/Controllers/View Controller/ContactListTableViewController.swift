@@ -11,13 +11,15 @@ import UIKit
 class ContactListTableViewController: UITableViewController {
     
     //MARK: - Outlets and properties
-
-
+    
+    
+    
     @IBOutlet weak var contactSearchBar: UISearchBar!
     
     var resultsArray: [Contact] = []
     var isSearching: Bool = false
     var contact: Contact?
+    var refresh: UIRefreshControl = UIRefreshControl()
     
     var dataSource: [Contact] {
         return isSearching ? resultsArray: ContactController.shared.contacts
@@ -28,6 +30,7 @@ class ContactListTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         fetchContacts()
+        setUpViews()
         contactSearchBar.delegate = self
         contactSearchBar.autocapitalizationType = .none
     }
@@ -41,7 +44,7 @@ class ContactListTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        
         return ContactController.shared.contacts.count
     }
     
@@ -89,23 +92,41 @@ class ContactListTableViewController: UITableViewController {
             }
         }
     }
+    func setUpViews() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        refresh.attributedTitle = NSAttributedString(string: "Pull to refresh Contacts")
+        refresh.addTarget(self, action: #selector(loadData), for: .valueChanged)
+        tableView.addSubview(refresh)
+    }
+    
+    @objc func loadData() {
+        ContactController.shared.fetchAllContacts { (success) in
+            if success {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.refresh.endRefreshing()
+                }
+            } else {
+                self.refresh.endRefreshing()
+            }
+        }
+    }
 }
 
 extension ContactListTableViewController: UISearchBarDelegate {
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         resultsArray = ContactController.shared.contacts.filter {
             ($0.matches(searchTerm: searchText))}
         tableView.reloadData()
-        
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        
         resultsArray = ContactController.shared.contacts
         searchBar.text = ""
         searchBar.resignFirstResponder()
         tableView.reloadData()
-        
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {

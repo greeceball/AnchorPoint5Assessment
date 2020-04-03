@@ -25,22 +25,18 @@ class Contact {
     var phoneNumber: String
     var ckRecordID: CKRecord.ID
     
-    
     init(name: String, email: String, phoneNumber: String, ckRecordID: CKRecord.ID = CKRecord.ID(recordName: UUID().uuidString)) {
-        
         self.name = name
         self.email = email
         self.phoneNumber = phoneNumber
         self.ckRecordID = ckRecordID
-        
     }
     
     convenience init?(record: CKRecord) {
-           
-           guard let name = record[ConstantContact.NameKey] as? String, let email = record[ConstantContact.EmailKey] as? String, let phoneNumber = record[ConstantContact.phoneKey] as? String else { return nil }
-           
-           self.init(name: name, email: email, phoneNumber: phoneNumber, ckRecordID: record.recordID)
-       }
+        guard let name = record[ConstantContact.NameKey] as? String, let email = record[ConstantContact.EmailKey] as? String, let phoneNumber = record[ConstantContact.phoneKey] as? String else { return nil }
+        
+        self.init(name: name, email: email, phoneNumber: phoneNumber, ckRecordID: record.recordID)
+    }
 }
 
 extension CKRecord {

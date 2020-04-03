@@ -16,12 +16,9 @@ class ContactController {
     var contacts: [Contact] = []
     
     //MARK: - CRUD Functions
-    
     //MARK: - Create
     func create(name: String, email: String, phoneNumber: String, completion: @escaping (Bool) -> Void) {
-        
         let newContact = Contact(name: name, email: email, phoneNumber: phoneNumber)
-        
         let newRecord = CKRecord(contact: newContact)
         
         publicDB.save(newRecord) { (record, error) in
@@ -39,7 +36,6 @@ class ContactController {
     //MARK: - Read
     func fetchAllContacts(completion: @escaping (Bool) -> Void) {
         let predicate = NSPredicate(value: true)
-        
         let query = CKQuery(recordType: ConstantContact.TypeKey, predicate: predicate)
         
         publicDB.perform(query, inZoneWith: nil) { (records, error) in
@@ -49,7 +45,6 @@ class ContactController {
                 return
             }
             guard let records = records else { completion(false); return }
-            
             let contacts: [Contact] = records.compactMap({Contact(record: $0)})
             self.contacts = contacts
             completion(true)
@@ -59,10 +54,9 @@ class ContactController {
     
     //MARK: - Update
     func updateContact(contact: Contact, completion: @escaping (Bool) -> Void) {
-        
         let records = CKRecord(contact: contact)
-        
         let operation = CKModifyRecordsOperation(recordsToSave: [records])
+        
         operation.savePolicy = .changedKeys
         operation.qualityOfService = .userInteractive
         operation.queuePriority = .high
@@ -75,13 +69,12 @@ class ContactController {
     
     //MARK: - Delete
     func deleteContact(contact: Contact, completion: @escaping(Bool) -> Void) {
-        
         publicDB.delete(withRecordID: contact.ckRecordID) { (record, error) in
             if let error = error {
                 print(error.localizedDescription + "---> \(error)")
                 completion(false)
                 return
-        }
+            }
             if let _ = record {
                 guard let index = self.contacts.firstIndex(of: contact) else { completion(false); return }
                 self.contacts.remove(at: index)

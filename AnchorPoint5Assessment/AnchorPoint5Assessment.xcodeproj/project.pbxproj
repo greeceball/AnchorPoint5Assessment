@@ -70,7 +70,6 @@
 			isa = PBXGroup;
 			children = (
 				346429B424379E5000F83927 /* SearchableRecord.swift */,
-				346429B624379E8200F83927 /* Helpers + extension */,
 				346429A624378DEB00F83927 /* Model */,
 				346429A524378DE100F83927 /* View */,
 				346429A224378DBA00F83927 /* Controllers */,
@@ -112,7 +111,6 @@
 		346429A424378DD700F83927 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				346429AF24378E7300F83927 /* Custom Cell */,
 				346429B02437932D00F83927 /* ContactListTableViewController.swift */,
 				346429B22437935200F83927 /* ContactDetailViewController.swift */,
 			);
@@ -141,20 +139,6 @@
 				346429A924378E1D00F83927 /* CloudKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		346429AF24378E7300F83927 /* Custom Cell */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Custom Cell";
-			sourceTree = "<group>";
-		};
-		346429B624379E8200F83927 /* Helpers + extension */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "Helpers + extension";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -382,6 +366,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZJLVU28L56;
 				INFOPLIST_FILE = AnchorPoint5Assessment/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -401,6 +386,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZJLVU28L56;
 				INFOPLIST_FILE = AnchorPoint5Assessment/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
